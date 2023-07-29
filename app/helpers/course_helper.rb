@@ -23,7 +23,7 @@ module CourseHelper
         #ute creek wants 2023-08-02
         future_date = convert_date_format(future_date)
 
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%#{future_date}&facilityIds=1801"
+        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=#{future_date}&facilityIds=1801"
 
         response = Faraday.get url, nil, {'x-be-alias': 'ute-creek-golf-course'}
         data = JSON.parse(response.body)
