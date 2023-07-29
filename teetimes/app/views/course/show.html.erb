@@ -1,0 +1,10 @@
+<h1><%= @course.name %></h1>
+<ul>
+<% @output.each do |opening| %>
+  <li>
+    Course: <%= opening['name'] %><br/>
+    Time: <%= minutes_since_midnight_to_time(opening['teeTime']) %><br/>
+    Number of slots open: <%= 4 - opening['playerCount'] %><br/>
+  </li>
+<% end %>
+</ul>
