@@ -11,7 +11,7 @@ module CourseHelper
         data = JSON.parse(response.body)
         
         filtered_data = data.each_with_object([]) do |item, result|
-            if item['teeTime'] <= 420 
+            if item['teeTime'] <= 840
               matching_items = item['items'].select { |i| i['golfCourseNumberOfHoles'] > 9 && i['isBackNine'] == false }
               result.concat(matching_items)
             end
