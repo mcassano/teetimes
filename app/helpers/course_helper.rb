@@ -26,7 +26,7 @@ module CourseHelper
         future_date = convert_date_format(future_date)
         
         url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=1801" % { future_date: future_date}
-        puts "mike #{url}"
+
         response = Faraday.get url, nil, {'x-be-alias': 'ute-creek-golf-course'}
         data = JSON.parse(response.body)
 
@@ -34,6 +34,28 @@ module CourseHelper
 
         filtered_data = data.each_with_object([]) do |item, result|
           matching_items = item['rates'].select { |i| i['name'] == "Prepaid - Walking"}
+          if matching_items.length > 0 then
+            result.concat([utc_to_mountain(item['teetime'])])
+          end
+        end
+
+        filtered_data
+      end
+
+      def foothills_fetch_and_filter(future_date)
+        future_date = seven_days_from_today if !defined?(future_date)
+        #foot hills wants 2023-08-02
+        future_date = convert_date_format(future_date)
+        
+        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=1793" % { future_date: future_date}
+
+        response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
+        data = JSON.parse(response.body)
+
+        data = data[0]["teetimes"]
+
+        filtered_data = data.each_with_object([]) do |item, result|
+          matching_items = item['rates'].select { |i| i['name'] == "18 Holes"}
           if matching_items.length > 0 then
             result.concat([utc_to_mountain(item['teetime'])])
           end
