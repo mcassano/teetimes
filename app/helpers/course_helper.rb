@@ -91,6 +91,6 @@ module CourseHelper
       def utc_to_mountain(utc_time_str)
         utc_time = Time.parse(utc_time_str)
         mountain_time = utc_time.in_time_zone('America/Denver')
-        mountain_time.strftime('%I:%M:%S %p %Z')
+        mountain_time.strftime('%I:%M%p')
       end
 end
