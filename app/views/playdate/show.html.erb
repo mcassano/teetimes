@@ -16,9 +16,15 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
   <li><%= opening %></li>
 <% end %>
 </ul>
-<h2><a href="https://www.foothillsgolf.org/teetimes/meadows-golf-club/">Foothills</a></h2>
+<h2><a href="https://www.foothillsgolf.org/teetimes/meadows-golf-club/">Meadows</a></h2>
 <ul>
-<% @foothills.each do |opening| %>
+<% @meadows.each do |opening| %>
+  <li><%= opening %></li>
+<% end %>
+</ul>
+<h2><a href="https://www.foothillsgolf.org/teetimes/foothills-championship-18/">Foothills Championship 18</a></h2>
+<ul>
+<% @foothillschamp.each do |opening| %>
   <li><%= opening %></li>
 <% end %>
 </ul>
