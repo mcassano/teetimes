@@ -1,10 +1,5 @@
 # teetimes
 
--1. Have something that respects .ruby-version
-```
-cd teetimes
-```
-
 0. Migrate
 ```
 bin/rails db:migrate
