@@ -65,30 +65,18 @@ module CourseHelper
       end
 
       def seven_days_from_today
-        # Get the current date
         today = Time.now
-      
-        # Calculate the date seven days from today
         future_date = today + (7 * 24 * 60 * 60)
-      
-        # Format the date as "mm-dd-yyyy"
         formatted_date = future_date.strftime("%m-%d-%Y")
       
         return formatted_date
       end
 
       def minutes_since_midnight_to_time(minutes)
-        # Calculate the hour and minute values
         hour = minutes / 60
         minute = minutes % 60
-      
-        # Determine whether it's AM or PM
         period = hour < 12 ? "am" : "pm"
-      
-        # Adjust hour to 12-hour format if needed
         hour = (hour % 12 == 0) ? 12 : (hour % 12)
-      
-        # Format the time as "hh:mmam" or "hh:mmpm"
         formatted_time = format("%d:%02d%s", hour, minute, period)
       
         return formatted_time
@@ -101,13 +89,8 @@ module CourseHelper
       end
 
       def utc_to_mountain(utc_time_str)
-        # Parse the UTC time string into a Time object
         utc_time = Time.parse(utc_time_str)
-
-        # Convert the time to Mountain Time (US Mountain Time is the same as Mountain Time)
         mountain_time = utc_time.in_time_zone('America/Denver')
-
-        # Format the output as a string (optional, you can use the Time object directly if needed)
-        mountain_time.strftime('%Y-%m-%d %H:%M:%S %Z')
+        mountain_time.strftime('%I:%M:%S %p %Z')
       end
 end
