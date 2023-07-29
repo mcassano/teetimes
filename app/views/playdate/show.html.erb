@@ -1,7 +1,8 @@
 Date: <%= @date %><br/>
 Showing 18 holes with slots available earlier than 7:00 AM<br/>
+<h2>City of Denver</h2>
 <ul>
-<% @output.each do |opening| %>
+<% @city_of_denver.each do |opening| %>
   <li>
     Course: <%= opening['name'] %><br/>
     Time: <%= minutes_since_midnight_to_time(opening['teeTime']) %><br/>
