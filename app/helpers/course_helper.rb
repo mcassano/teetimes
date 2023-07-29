@@ -2,6 +2,7 @@ module CourseHelper
     require 'faraday'
     require 'json'
     require 'date'
+    require 'active_support/time'
 
     def denver_fetch_and_filter(future_date)
         future_date = seven_days_from_today if !defined?(future_date)
@@ -31,7 +32,14 @@ module CourseHelper
 
         data = data[0]["teetimes"]
 
-        data
+        filtered_data = data.each_with_object([]) do |item, result|
+          matching_items = item['rates'].select { |i| i['name'] == "Prepaid - Walking"}
+          if matching_items.length > 0 then
+            result.concat([utc_to_mountain(item['teetime'])])
+          end
+        end
+
+        filtered_data
       end
 
       def seven_days_from_today
@@ -68,5 +76,16 @@ module CourseHelper
         #give 08-02-2023 and get 2023-08-02
         date = Date.strptime(input_date, '%m-%d-%Y')
         date.strftime('%Y-%m-%d')
+      end
+
+      def utc_to_mountain(utc_time_str)
+        # Parse the UTC time string into a Time object
+        utc_time = Time.parse(utc_time_str)
+
+        # Convert the time to Mountain Time (US Mountain Time is the same as Mountain Time)
+        mountain_time = utc_time.in_time_zone('America/Denver')
+
+        # Format the output as a string (optional, you can use the Time object directly if needed)
+        mountain_time.strftime('%Y-%m-%d %H:%M:%S %Z')
       end
 end

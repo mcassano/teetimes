@@ -11,4 +11,8 @@ Showing 18 holes with slots available earlier than 7:00 AM<br/>
 <% end %>
 </ul>
 <h2>Ute Creek</h2>
-<%= @ute_creek %>
+<ul>
+<% @ute_creek.each do |opening| %>
+  <li><%= opening %></li>
+<% end %>
+</ul>
