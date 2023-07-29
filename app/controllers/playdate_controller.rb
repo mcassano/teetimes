@@ -7,6 +7,7 @@ class PlaydateController < ApplicationController
       @meadows = meadows_fetch_and_filter(params[:date])
       @foothillschamp = foothillschamp_fetch_and_filter(params[:date])
       @hylandhills = hylandhills_fetch_and_filter(params[:date])
+      @buffalo = buffalo_fetch_and_filter(params[:date])
     end
   end
   
