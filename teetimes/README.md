@@ -11,4 +11,4 @@ bin/rails console
 
 3. Browser: http://localhost/courses
 
-4. Click the course you just added and it will scan Denver Golf for any early tee times for 3 days from now.
+4. Click the course you just added and it will scan Denver Golf for any early tee times for 7 days from now.
