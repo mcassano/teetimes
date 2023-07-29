@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root "health#hello"
+  root to: "home#index"
 
   get "/courses", to: "course#index"
   get "/courses/:id", to: "course#show"
