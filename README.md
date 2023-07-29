@@ -5,15 +5,8 @@
 bin/rails db:migrate
 ```
 
-1. Add a Course:
-```
-bin/rails console
-> course = Course.new(name:"Family Sports Golf", address:"Near Mike")
-> course.save
-```
+1. Start the server: bin/rails server
 
-2. Start the server: bin/rails server
+2. Browser: http://localhost/
 
-3. Browser: http://localhost/courses
-
-4. Click the course you just added and it will scan Denver Golf for any early tee times for 7 days from now.
+3. Enter a date that you want to see openings on
