@@ -7,6 +7,6 @@ class CourseController < ApplicationController
   def show
     @course = Course.find(params[:id])
 
-    @output = fetch_and_filter
+    @output = denver_fetch_and_filter
   end
 end

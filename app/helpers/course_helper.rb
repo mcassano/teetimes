@@ -2,8 +2,9 @@ module CourseHelper
     require 'faraday'
     require 'json'
 
-    def fetch_and_filter
-        url = "https://api.membersports.com/api/v1/golfclubs/groupTeeSheet/1/types/0/%{future_date}" % { future_date: seven_days_from_today }
+    def denver_fetch_and_filter(future_date)
+        future_date = seven_days_from_today if !defined?(future_date)
+        url = "https://api.membersports.com/api/v1/golfclubs/groupTeeSheet/1/types/0/%{future_date}" % { future_date: future_date}
 
         response = Faraday.get(url)
         
