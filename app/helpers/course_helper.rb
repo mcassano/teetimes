@@ -1,17 +1,13 @@
 module CourseHelper
     require 'faraday'
     require 'json'
+    require 'date'
 
     def denver_fetch_and_filter(future_date)
         future_date = seven_days_from_today if !defined?(future_date)
         url = "https://api.membersports.com/api/v1/golfclubs/groupTeeSheet/1/types/0/%{future_date}" % { future_date: future_date}
-
         response = Faraday.get(url)
-        
-        # Parse JSON response into a Ruby hash
         data = JSON.parse(response.body)
-        
-        # Now you can process your data here.
         
         filtered_data = data.each_with_object([]) do |item, result|
             if item['teeTime'] <= 420 
@@ -21,6 +17,21 @@ module CourseHelper
         end
 
         filtered_data
+      end
+
+      def ute_creek_fetch_and_filter(future_date)
+        future_date = seven_days_from_today if !defined?(future_date)
+        #ute creek wants 2023-08-02
+        future_date = convert_date_format(future_date)
+        
+        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=1801" % { future_date: future_date}
+        puts "mike #{url}"
+        response = Faraday.get url, nil, {'x-be-alias': 'ute-creek-golf-course'}
+        data = JSON.parse(response.body)
+
+        data = data[0]["teetimes"]
+
+        data
       end
 
       def seven_days_from_today
@@ -51,5 +62,11 @@ module CourseHelper
         formatted_time = format("%d:%02d%s", hour, minute, period)
       
         return formatted_time
+      end
+
+      def convert_date_format(input_date)
+        #give 08-02-2023 and get 2023-08-02
+        date = Date.strptime(input_date, '%m-%d-%Y')
+        date.strftime('%Y-%m-%d')
       end
 end
