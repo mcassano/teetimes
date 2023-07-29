@@ -28,16 +28,7 @@ module CourseHelper
         response = Faraday.get url, nil, {'x-be-alias': 'ute-creek-golf-course'}
         data = JSON.parse(response.body)
 
-        data = data[0]["teetimes"]
-
-        filtered_data = data.each_with_object([]) do |item, result|
-          matching_items = item['rates'].select { |i| i['name'] == "Prepaid - Walking"}
-          if matching_items.length > 0 then
-            result.concat([utc_to_mountain(item['teetime'])])
-          end
-        end
-
-        filtered_data
+        filter_ute_style(data, "Prepaid - Walking")
       end
 
       def meadows_fetch_and_filter(future_date = seven_days_from_today)
@@ -49,16 +40,7 @@ module CourseHelper
         response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
         data = JSON.parse(response.body)
 
-        data = data[0]["teetimes"]
-
-        filtered_data = data.each_with_object([]) do |item, result|
-          matching_items = item['rates'].select { |i| i['name'] == "18 Holes"}
-          if matching_items.length > 0 then
-            result.concat([utc_to_mountain(item['teetime'])])
-          end
-        end
-
-        filtered_data
+        filter_ute_style(data, "18 Holes")
       end
 
       def foothillschamp_fetch_and_filter(future_date = seven_days_from_today)
@@ -70,16 +52,7 @@ module CourseHelper
         response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
         data = JSON.parse(response.body)
 
-        data = data[0]["teetimes"]
-
-        filtered_data = data.each_with_object([]) do |item, result|
-          matching_items = item['rates'].select { |i| i['name'] == "18 Holes"}
-          if matching_items.length > 0 then
-            result.concat([utc_to_mountain(item['teetime'])])
-          end
-        end
-
-        filtered_data
+        filter_ute_style(data, "18 Holes")
       end
 
       def hylandhills_fetch_and_filter(future_date = seven_days_from_today)
@@ -91,16 +64,7 @@ module CourseHelper
         response = Faraday.get url, nil, {'x-be-alias': 'hyland-hills-park-recreation-district'}
         data = JSON.parse(response.body)
 
-        data = data[0]["teetimes"]
-
-        filtered_data = data.each_with_object([]) do |item, result|
-          matching_items = item['rates'].select { |i| i['name'] == "18 Holes"}
-          if matching_items.length > 0 then
-            result.concat([utc_to_mountain(item['teetime'])])
-          end
-        end
-
-        filtered_data
+        filter_ute_style(data, "18 Holes")
       end
 
       def buffalo_fetch_and_filter(future_date = seven_days_from_today)
@@ -112,12 +76,17 @@ module CourseHelper
         response = Faraday.get url, nil, {'x-be-alias': 'buffalo-run-golf-course'}
         data = JSON.parse(response.body)
 
+        filter_ute_style(data, "18 Holes")
+      end
+
+      def filter_ute_style(data, standard_rate_description)
         data = data[0]["teetimes"]
 
         filtered_data = data.each_with_object([]) do |item, result|
-          matching_items = item['rates'].select { |i| i['name'] == "18 Holes"}
+          matching_items = item['rates'].select { |i| i['name'] == standard_rate_description}
           if matching_items.length > 0 then
-            result.concat([utc_to_mountain(item['teetime'])])
+            slots_avail = matching_items[0]["allowedPlayers"].max
+            result.concat([{"teetime" => utc_to_mountain(item['teetime']),"slots_avail" => slots_avail}])
           end
         end
 
