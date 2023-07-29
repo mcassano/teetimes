@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  coursegroup: one
+  user: one
+  requested_date: 2023-07-29 07:11:12
+
+two:
+  coursegroup: two
+  user: two
+  requested_date: 2023-07-29 07:11:12
