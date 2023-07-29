@@ -7,9 +7,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
 <ul>
 <% @city_of_denver.each do |opening| %>
   <li>
-    Course: <%= opening['name'] %><br/>
-    Time: <%= minutes_since_midnight_to_time(opening['teeTime']) %><br/>
-    Number of slots open: <%= 4 - opening['playerCount'] %><br/>
+    <%= opening['name'] %> <%= minutes_since_midnight_to_time(opening['teeTime']) %> <%= 4 - opening['playerCount'] %>
   </li>
 <% end %>
 </ul>
