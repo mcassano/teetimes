@@ -1,15 +1,14 @@
-module CourseHelper
-    require 'faraday'
-    require 'json'
-    require 'date'
-    require 'active_support/time'
+require 'faraday'
+require 'json'
+require 'date'
+require 'active_support/time'
 
-    def denver_fetch_and_filter(future_date)
-        future_date = seven_days_from_today if !defined?(future_date)
-        url = "https://api.membersports.com/api/v1/golfclubs/groupTeeSheet/1/types/0/%{future_date}" % { future_date: future_date}
+module CourseHelper
+    def denver_fetch_and_filter(future_date = seven_days_from_today)
+        url = "https://api.membersports.com/api/v1/golfclubs/groupTeeSheet/1/types/0/#{future_date}"
         response = Faraday.get(url)
         data = JSON.parse(response.body)
-        
+
         filtered_data = data.each_with_object([]) do |item, result|
             if item['teeTime'] <= 840
               matching_items = item['items'].select { |i| i['golfCourseNumberOfHoles'] > 9 && i['isBackNine'] == false }
@@ -20,12 +19,11 @@ module CourseHelper
         filtered_data
       end
 
-      def ute_creek_fetch_and_filter(future_date)
-        future_date = seven_days_from_today if !defined?(future_date)
+      def ute_creek_fetch_and_filter(future_date = seven_days_from_today)
         #ute creek wants 2023-08-02
         future_date = convert_date_format(future_date)
-        
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=1801" % { future_date: future_date}
+
+        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%#{future_date}&facilityIds=1801"
 
         response = Faraday.get url, nil, {'x-be-alias': 'ute-creek-golf-course'}
         data = JSON.parse(response.body)
@@ -42,12 +40,11 @@ module CourseHelper
         filtered_data
       end
 
-      def meadows_fetch_and_filter(future_date)
-        future_date = seven_days_from_today if !defined?(future_date)
+      def meadows_fetch_and_filter(future_date = seven_days_from_today)
         #foot hills wants 2023-08-02
         future_date = convert_date_format(future_date)
-        
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=1793" % { future_date: future_date}
+
+        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=#{future_date}&facilityIds=1793"
 
         response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
         data = JSON.parse(response.body)
@@ -64,11 +61,10 @@ module CourseHelper
         filtered_data
       end
 
-      def foothillschamp_fetch_and_filter(future_date)
-        future_date = seven_days_from_today if !defined?(future_date)
+      def foothillschamp_fetch_and_filter(future_date = seven_days_from_today)
         #foot hills wants 2023-08-02
         future_date = convert_date_format(future_date)
-        
+
         url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=6826" % { future_date: future_date}
 
         response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
@@ -86,11 +82,10 @@ module CourseHelper
         filtered_data
       end
 
-      def hylandhills_fetch_and_filter(future_date)
-        future_date = seven_days_from_today if !defined?(future_date)
+      def hylandhills_fetch_and_filter(future_date = seven_days_from_today)
         #ute creek wants 2023-08-02
         future_date = convert_date_format(future_date)
-        
+
         url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=9201" % { future_date: future_date}
 
         response = Faraday.get url, nil, {'x-be-alias': 'hyland-hills-park-recreation-district'}
@@ -109,21 +104,11 @@ module CourseHelper
       end
 
       def seven_days_from_today
-        today = Time.now
-        future_date = today + (7 * 24 * 60 * 60)
-        formatted_date = future_date.strftime("%m-%d-%Y")
-      
-        return formatted_date
+        7.days.from_now.strftime("%m-%d-%Y")
       end
 
       def minutes_since_midnight_to_time(minutes)
-        hour = minutes / 60
-        minute = minutes % 60
-        period = hour < 12 ? "am" : "pm"
-        hour = (hour % 12 == 0) ? 12 : (hour % 12)
-        formatted_time = format("%d:%02d%s", hour, minute, period)
-      
-        return formatted_time
+        (Date.today.midnight + minutes.minutes).strftime("%l:%M%p")
       end
 
       def convert_date_format(input_date)
