@@ -16,7 +16,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
       <h4><a href="https://www.golflongmont.com/utecreek-tee-times">Ute Creek</a></h4>
       <ul>
       <% @ute_creek.each do |opening| %>
-        <li><%= opening["teetime"] %> #<%= opening["slots_avail"] %></li>
+        <li><%= html_ute_style(opening) %></li>
       <% end %>
       </ul>
     </div>
@@ -24,7 +24,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
       <h4><a href="https://www.golflongmont.com/twinpeaks-tee-times">Twin Peaks🏔️🏔️</a></h4>
       <ul>
       <% @twinpeaks.each do |opening| %>
-        <li><%= opening["teetime"] %> #<%= opening["slots_avail"] %></li>
+        <li><%= html_ute_style(opening) %></li>
       <% end %>
       </ul>
     </div>
@@ -32,7 +32,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
       <h4><a href="https://www.foothillsgolf.org/teetimes/meadows-golf-club/">Foothills Meadows</a></h4>
       <ul>
       <% @meadows.each do |opening| %>
-        <li><%= opening["teetime"] %> #<%= opening["slots_avail"] %></li>
+        <li><%= html_ute_style(opening) %></li>
       <% end %>
       </ul>
     </div>
@@ -40,7 +40,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
       <h4><a href="https://www.foothillsgolf.org/teetimes/foothills-championship-18/">Foothills Championship 18</a></h4>
       <ul>
       <% @foothillschamp.each do |opening| %>
-        <li><%= opening["teetime"] %> #<%= opening["slots_avail"] %></li>
+        <li><%= html_ute_style(opening) %></li>
       <% end %>
       </ul>
     </div>
@@ -48,7 +48,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
       <h4><a href="https://www.golfhylandhills.com/teetimes/">Hyland Hills Gold 18</a></h4>
       <ul>
       <% @hylandhills.each do |opening| %>
-        <li><%= opening["teetime"] %> #<%= opening["slots_avail"] %></li>
+        <li><%= html_ute_style(opening) %></li>
       <% end %>
       </ul>
     </div>
@@ -56,7 +56,7 @@ Showing 18 holes with slots available earlier than some time in the afternoon<br
       <h4><a href="https://www.buffalorungolfcourse.com/teetimes/">Buffalo Run</a></h4>
       <ul>
       <% @buffalo.each do |opening| %>
-        <li><%= opening["teetime"] %> #<%= opening["slots_avail"] %></li>
+        <li><%= html_ute_style(opening) %></li>
       <% end %>
       </ul>
     </div>

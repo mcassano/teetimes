@@ -93,4 +93,9 @@ module CourseHelper
         mountain_time = utc_time.in_time_zone('America/Denver')
         mountain_time.strftime('%I:%M%p')
       end
+
+      def html_ute_style(opening)
+        "#{opening["teetime"]} @#{opening["slots_avail"]}"
+      end
+
 end
