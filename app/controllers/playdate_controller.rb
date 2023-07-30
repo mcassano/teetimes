@@ -2,14 +2,15 @@ class PlaydateController < ApplicationController
     include CourseHelper
     def show
       @date = params[:date]
-
-      @city_of_denver = denver_fetch_and_filter(params[:date])
-      @ute_creek = ute_creek_fetch_and_filter(params[:date])
-      @twinpeaks = twinpeaks_fetch_and_filter(params[:date])
-      @meadows = meadows_fetch_and_filter(params[:date])
-      @foothillschamp = foothillschamp_fetch_and_filter(params[:date])
-      @hylandhills = hylandhills_fetch_and_filter(params[:date])
-      @buffalo = buffalo_fetch_and_filter(params[:date])
+      threads = []
+      threads << Thread.new { @city_of_denver = denver_fetch_and_filter(params[:date]) }
+      threads << Thread.new { @ute_creek = ute_creek_fetch_and_filter(params[:date]) }
+      threads << Thread.new { @twinpeaks = twinpeaks_fetch_and_filter(params[:date]) }
+      threads << Thread.new { @meadows = meadows_fetch_and_filter(params[:date]) }
+      threads << Thread.new { @foothillschamp = foothillschamp_fetch_and_filter(params[:date]) }
+      threads << Thread.new { @hylandhills = hylandhills_fetch_and_filter(params[:date]) }
+      threads << Thread.new { @buffalo = buffalo_fetch_and_filter(params[:date]) }
+      threads.each(&:join)
     end
   end
   
