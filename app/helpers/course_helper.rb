@@ -20,63 +20,39 @@ module CourseHelper
       end
 
       def ute_creek_fetch_and_filter(future_date = seven_days_from_today)
-        #ute creek wants 2023-08-02
-        future_date = convert_date_format(future_date)
-
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=#{future_date}&facilityIds=1801"
-
-        response = Faraday.get url, nil, {'x-be-alias': 'ute-creek-golf-course'}
-        data = JSON.parse(response.body)
-
+        data = fetch_ute_style(1801, future_date, 'ute-creek-golf-course')
         filter_ute_style(data, "Prepaid - Walking")
       end
 
       def meadows_fetch_and_filter(future_date = seven_days_from_today)
-        #foot hills wants 2023-08-02
-        future_date = convert_date_format(future_date)
-
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=#{future_date}&facilityIds=1793"
-
-        response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
-        data = JSON.parse(response.body)
-
+        data = fetch_ute_style(1793, future_date, 'foothills-pd')
         filter_ute_style(data, "18 Holes")
       end
 
       def foothillschamp_fetch_and_filter(future_date = seven_days_from_today)
-        #foot hills wants 2023-08-02
-        future_date = convert_date_format(future_date)
-
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=6826" % { future_date: future_date}
-
-        response = Faraday.get url, nil, {'x-be-alias': 'foothills-pd'}
-        data = JSON.parse(response.body)
-
+        data = fetch_ute_style(6826, future_date, 'foothills-pd')
         filter_ute_style(data, "18 Holes")
       end
 
       def hylandhills_fetch_and_filter(future_date = seven_days_from_today)
-        #hylands wants 2023-08-02
-        future_date = convert_date_format(future_date)
-
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=9201" % { future_date: future_date}
-
-        response = Faraday.get url, nil, {'x-be-alias': 'hyland-hills-park-recreation-district'}
-        data = JSON.parse(response.body)
-
+        data = fetch_ute_style(9201, future_date, 'hyland-hills-park-recreation-district')
         filter_ute_style(data, "18 Holes")
       end
 
       def buffalo_fetch_and_filter(future_date = seven_days_from_today)
-        #buffalo wants 2023-08-02
+        data = fetch_ute_style(513, future_date, 'buffalo-run-golf-course')
+        filter_ute_style(data, "18 Holes")
+      end
+
+      def fetch_ute_style(facility_id, future_date, aliastag)
         future_date = convert_date_format(future_date)
 
-        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=%{future_date}&facilityIds=513" % { future_date: future_date}
+        url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=#{future_date}&facilityIds=#{facility_id}"
 
-        response = Faraday.get url, nil, {'x-be-alias': 'buffalo-run-golf-course'}
+        response = Faraday.get url, nil, {'x-be-alias': aliastag}
         data = JSON.parse(response.body)
 
-        filter_ute_style(data, "18 Holes")
+        data
       end
 
       def filter_ute_style(data, standard_rate_description)
