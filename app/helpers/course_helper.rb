@@ -5,6 +5,8 @@ require 'active_support/time'
 
 module CourseHelper
     def denver_fetch_and_filter(future_date = seven_days_from_today)
+        future_date = convert_date_format(future_date)
+
         url = "https://api.membersports.com/api/v1/golfclubs/groupTeeSheet/1/types/0/#{future_date}"
         response = Faraday.get(url)
         data = JSON.parse(response.body)
@@ -45,8 +47,6 @@ module CourseHelper
       end
 
       def fetch_ute_style(facility_id, future_date, aliastag)
-        future_date = convert_date_format(future_date)
-
         url = "https://phx-api-be-east-1b.kenna.io/v2/tee-times?date=#{future_date}&facilityIds=#{facility_id}"
 
         response = Faraday.get url, nil, {'x-be-alias': aliastag}
@@ -78,9 +78,9 @@ module CourseHelper
       end
 
       def convert_date_format(input_date)
-        #give 08-02-2023 and get 2023-08-02
-        date = Date.strptime(input_date, '%m-%d-%Y')
-        date.strftime('%Y-%m-%d')
+        #give 2023-08-02 and get 08-02-2023
+        date = Date.strptime(input_date, '%Y-%m-%d')
+        date.strftime('%m-%d-%Y')
       end
 
       def utc_to_mountain(utc_time_str)
