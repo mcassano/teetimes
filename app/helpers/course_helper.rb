@@ -79,7 +79,7 @@ module CourseHelper
       end
 
       def minutes_since_midnight_to_time(minutes)
-        (Date.today.midnight + minutes.minutes).strftime("%l:%M%p")
+        (Date.today.midnight + minutes.minutes).strftime("%l:%M%p").sub("AM", "a").sub("PM", "p")
       end
 
       def convert_date_format(input_date)
@@ -91,7 +91,7 @@ module CourseHelper
       def utc_to_mountain(utc_time_str)
         utc_time = Time.parse(utc_time_str)
         mountain_time = utc_time.in_time_zone('America/Denver')
-        mountain_time.strftime('%I:%M%p')
+        mountain_time.strftime('%I:%M%p').sub("AM", "a").sub("PM", "p")
       end
 
       def html_ute_style(opening)
