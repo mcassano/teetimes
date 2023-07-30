@@ -26,6 +26,11 @@ module CourseHelper
         filter_ute_style(data, "Prepaid - Walking")
       end
 
+      def twinpeaks_fetch_and_filter(future_date = seven_days_from_today)
+        data = fetch_ute_style(1830, future_date, 'twin-peaks-golf-course')
+        filter_ute_style(data, "Walking")
+      end
+
       def meadows_fetch_and_filter(future_date = seven_days_from_today)
         data = fetch_ute_style(1793, future_date, 'foothills-pd')
         filter_ute_style(data, "18 Holes")
