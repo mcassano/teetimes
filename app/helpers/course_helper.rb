@@ -95,7 +95,7 @@ module CourseHelper
       end
 
       def html_ute_style(opening)
-        "#{opening["teetime"]} @#{opening["slots_avail"]}"
+        "#{opening["teetime"]} ##{opening["slots_avail"]}"
       end
 
 end
